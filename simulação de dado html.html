@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dados de RPG</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+    }
+
+    .dice {
+        width: 150px;
+        height: 150px;
+        background-color: yellow;
+        border: 2px solid black;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .dice img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+    }
+
+    @keyframes roll {
+        0% { transform: rotate(0deg); }
+        50% { transform: rotate(720deg) translateY(-20px); }
+        100% { transform: rotate(720deg) translateY(0); }
+    }
+</style>
+</head>
+<body>
+<div class="dice" id="dice">Clique para rolar
+    <img id="diceImg" src="" alt="Dado">
+</div>
+
+<script>
+    var diceValues = {
+        d2: { sides: 2, image: "https://www.example.com/d2.png" },
+        d4: { sides: 4, image: "https://www.example.com/d4.png" },
+        d6: { sides: 6, image: "https://www.example.com/d6.png" },
+        d8: { sides: 8, image: "https://www.example.com/d8.png" },
+        d10: { sides: 10, image: "https://www.example.com/d10.png" },
+        d12: { sides: 12, image: "https://www.example.com/d12.png" },
+        d20: { sides: 20, image: "https://www.example.com/d20.png" },
+        d30: { sides: 30, image: "https://www.example.com/d30.png" },
+        d100: { sides: 100, image: "https://www.example.com/d100.png" }
+    };
+
+    var diceElement = document.getElementById('dice');
+    var diceImgElement = document.getElementById('diceImg');
+
+    diceElement.addEventListener('click', rollDice);
+
+    function rollDice() {
+        var diceTypes = Object.keys(diceValues);
+        var randomType = diceTypes[Math.floor(Math.random() * diceTypes.length)];
+        var sides = diceValues[randomType].sides;
+        var result = Math.floor(Math.random() * sides) + 1;
+        diceElement.innerText = 'D' + sides + ': ' + result;
+        diceImgElement.src = diceValues[randomType].image;
+
+        // Animação de rolagem
+        diceElement.style.animation = 'roll 1.5s cubic-bezier(0.23, 1, 0.32, 1)';
+        diceImgElement.style.display = 'block';
+
+        setTimeout(function() {
+            diceElement.style.animation = '';
+            diceImgElement.style.display = 'none';
+        }, 1500);
+    }
+</script>
+</body>
+</html>
